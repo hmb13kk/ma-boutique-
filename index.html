@@ -1,9 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Ma Boutique</title>
 
     <style>
@@ -48,7 +48,7 @@
         .hero {
             background: white;
             text-align: center;
-            padding: 60px 20px;
+            padding: 70px 20px;
         }
 
         .hero h2 {
@@ -85,7 +85,7 @@
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 25px;
         }
 
@@ -99,32 +99,43 @@
 
         .product img {
             width: 100%;
-            height: 220px;
+            height: 300px;
             object-fit: cover;
         }
 
         .product-info {
-            padding: 15px;
+            padding: 18px;
         }
 
         .product h3 {
+            font-size: 22px;
             margin-bottom: 8px;
         }
 
+        .product p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
         .price {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 15px 0;
         }
 
         .product button {
             width: 100%;
-            padding: 11px;
+            padding: 12px;
             background: #111;
             color: white;
             border: none;
             border-radius: 7px;
             cursor: pointer;
+            font-size: 16px;
+        }
+
+        .product button:hover {
+            background: #333;
         }
 
         /* PANIER */
@@ -219,6 +230,7 @@
         }
 
         @media (max-width: 500px) {
+
             .hero h2 {
                 font-size: 30px;
             }
@@ -233,84 +245,83 @@
 <body>
 
 <header>
+
     <h1>MA BOUTIQUE</h1>
 
     <button id="cart-button">
         🛒 Panier (<span id="cart-count">0</span>)
     </button>
+
 </header>
 
+
 <section class="hero">
+
     <h2>Bienvenue dans ma boutique</h2>
-    <p>Découvrez nos produits et passez votre commande facilement.</p>
+
+    <p>
+        Découvrez notre collection et commandez facilement.
+    </p>
 
     <button onclick="document.getElementById('products').scrollIntoView()">
-        Voir les produits
+        Voir le produit
     </button>
+
 </section>
+
 
 <section class="products" id="products">
 
-    <h2>Nos produits</h2>
+    <h2>Notre produit</h2>
 
     <div class="product-grid">
 
         <div class="product">
-            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80" alt="T-shirt">
-            <div class="product-info">
-                <h3>T-shirt classique</h3>
-                <p>Un t-shirt simple et confortable.</p>
-                <div class="price">19,99 €</div>
-                <button onclick="addToCart('T-shirt classique', 19.99)">
-                    Ajouter au panier
-                </button>
-            </div>
-        </div>
 
-        <div class="product">
-            <img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=600&q=80" alt="Sweat">
-            <div class="product-info">
-                <h3>Sweat</h3>
-                <p>Un sweat confortable pour tous les jours.</p>
-                <div class="price">39,99 €</div>
-                <button onclick="addToCart('Sweat', 39.99)">
-                    Ajouter au panier
-                </button>
-            </div>
-        </div>
+            <img
+                src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80"
+                alt="Maillot de football"
+            >
 
-        <div class="product">
-            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80" alt="Chaussures">
             <div class="product-info">
-                <h3>Chaussures</h3>
-                <p>Chaussures modernes et confortables.</p>
-                <div class="price">59,99 €</div>
-                <button onclick="addToCart('Chaussures', 59.99)">
-                    Ajouter au panier
-                </button>
-            </div>
-        </div>
 
-        <div class="product">
-            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80" alt="Montre">
-            <div class="product-info">
-                <h3>Montre</h3>
-                <p>Une montre élégante pour compléter votre style.</p>
-                <div class="price">49,99 €</div>
-                <button onclick="addToCart('Montre', 49.99)">
+                <h3>Maillot de football</h3>
+
+                <p>
+                    Maillot de football disponible dans notre boutique.
+                </p>
+
+                <div class="price">
+                    29,99 €
+                </div>
+
+                <button onclick="acheterMaillot()">
+                    Acheter
+                </button>
+
+                <button
+                    onclick="addToCart('Maillot de football', 29.99)"
+                    style="margin-top:10px; background:#555;"
+                >
                     Ajouter au panier
                 </button>
+
             </div>
+
         </div>
 
     </div>
+
 </section>
+
 
 <!-- PANIER -->
 
 <div id="cart">
 
-    <button id="close-cart">✕</button>
+    <button id="close-cart">
+        ✕
+    </button>
 
     <h2>Votre panier</h2>
 
@@ -328,11 +339,19 @@
 
 </div>
 
+
 <footer>
-    <p>© 2026 Ma Boutique - Tous droits réservés</p>
+
+    <p>
+        © 2026 Ma Boutique - Tous droits réservés
+    </p>
+
 </footer>
 
+
 <script>
+
+    /* PANIER */
 
     let cart = [];
 
@@ -341,32 +360,55 @@
     const cartTotal = document.getElementById("cart-total");
     const cartCount = document.getElementById("cart-count");
 
+
+    /* OUVRIR LE PANIER */
+
     document.getElementById("cart-button").addEventListener("click", function() {
+
         cartElement.classList.add("open");
+
     });
 
+
+    /* FERMER LE PANIER */
+
     document.getElementById("close-cart").addEventListener("click", function() {
+
         cartElement.classList.remove("open");
+
     });
+
+
+    /* AJOUTER AU PANIER */
 
     function addToCart(name, price) {
 
         const existing = cart.find(item => item.name === name);
 
         if (existing) {
+
             existing.quantity++;
+
         } else {
+
             cart.push({
+
                 name: name,
                 price: price,
                 quantity: 1
+
             });
+
         }
 
         updateCart();
 
         cartElement.classList.add("open");
+
     }
+
+
+    /* AFFICHER LE PANIER */
 
     function updateCart() {
 
@@ -375,73 +417,139 @@
         let total = 0;
         let count = 0;
 
+
         if (cart.length === 0) {
+
             cartItems.innerHTML = "<p>Votre panier est vide.</p>";
+
         }
+
 
         cart.forEach((item, index) => {
 
             total += item.price * item.quantity;
+
             count += item.quantity;
+
 
             const div = document.createElement("div");
 
             div.className = "cart-item";
 
+
             div.innerHTML = `
+
                 <strong>${item.name}</strong>
-                <span>${item.price.toFixed(2).replace(".", ",")} €</span>
+
+                <span>
+                    ${item.price.toFixed(2).replace(".", ",")} €
+                </span>
 
                 <div class="quantity">
-                    <button onclick="changeQuantity(${index}, -1)">−</button>
-                    <span>${item.quantity}</span>
-                    <button onclick="changeQuantity(${index}, 1)">+</button>
+
+                    <button onclick="changeQuantity(${index}, -1)">
+                        −
+                    </button>
+
+                    <span>
+                        ${item.quantity}
+                    </span>
+
+                    <button onclick="changeQuantity(${index}, 1)">
+                        +
+                    </button>
+
                 </div>
 
-                <button class="remove" onclick="removeItem(${index})">
+                <button
+                    class="remove"
+                    onclick="removeItem(${index})"
+                >
                     Supprimer
                 </button>
+
             `;
 
             cartItems.appendChild(div);
+
         });
 
+
         cartTotal.textContent =
-            "Total : " + total.toFixed(2).replace(".", ",") + " €";
+            "Total : " +
+            total.toFixed(2).replace(".", ",") +
+            " €";
+
 
         cartCount.textContent = count;
+
     }
+
+
+    /* MODIFIER LA QUANTITÉ */
 
     function changeQuantity(index, amount) {
 
         cart[index].quantity += amount;
 
+
         if (cart[index].quantity <= 0) {
+
             cart.splice(index, 1);
+
         }
 
+
         updateCart();
+
     }
+
+
+    /* SUPPRIMER UN ARTICLE */
 
     function removeItem(index) {
 
         cart.splice(index, 1);
 
         updateCart();
+
     }
+
+
+    /* ACHETER DIRECTEMENT LE MAILLOT */
+
+    function acheterMaillot() {
+
+        window.location.href =
+            "https://buy.stripe.com/fZuaEW8Yx4aQeppeyx4ko00";
+
+    }
+
+
+    /* BOUTON COMMANDER DU PANIER */
 
     function checkout() {
 
         if (cart.length === 0) {
+
             alert("Votre panier est vide.");
+
             return;
+
         }
 
-        alert("Merci pour votre commande ! Le paiement sera ajouté prochainement.");
+
+        /*
+        Pour le moment, le paiement Stripe
+        est configuré directement pour le maillot.
+        */
+
+        window.location.href =
+            "https://buy.stripe.com/fZuaEW8Yx4aQeppeyx4ko00";
+
     }
 
 </script>
 
 </body>
 </html>
-```
