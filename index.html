@@ -1,0 +1,447 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Boutique</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        header {
+            background: #111;
+            color: white;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        #cart-button {
+            background: white;
+            color: #111;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .hero {
+            background: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero h2 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .hero button {
+            background: #111;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .products {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .products h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .product {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            padding-bottom: 20px;
+        }
+
+        .product img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product h3 {
+            margin-bottom: 8px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .product button {
+            width: 100%;
+            padding: 11px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        /* PANIER */
+
+        #cart {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 360px;
+            max-width: 100%;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.2);
+            z-index: 20;
+            padding: 25px;
+            transition: 0.3s;
+            overflow-y: auto;
+        }
+
+        #cart.open {
+            right: 0;
+        }
+
+        #close-cart {
+            float: right;
+            border: none;
+            background: none;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        #cart h2 {
+            margin-bottom: 25px;
+        }
+
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+
+        .cart-item strong {
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .quantity button {
+            border: none;
+            background: #eee;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .remove {
+            color: red;
+            border: none;
+            background: none;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        #cart-total {
+            font-size: 21px;
+            font-weight: bold;
+            margin: 25px 0;
+        }
+
+        #checkout {
+            width: 100%;
+            padding: 14px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        footer {
+            background: #111;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 500px) {
+            .hero h2 {
+                font-size: 30px;
+            }
+
+            #cart {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>MA BOUTIQUE</h1>
+
+    <button id="cart-button">
+        🛒 Panier (<span id="cart-count">0</span>)
+    </button>
+</header>
+
+<section class="hero">
+    <h2>Bienvenue dans ma boutique</h2>
+    <p>Découvrez nos produits et passez votre commande facilement.</p>
+
+    <button onclick="document.getElementById('products').scrollIntoView()">
+        Voir les produits
+    </button>
+</section>
+
+<section class="products" id="products">
+
+    <h2>Nos produits</h2>
+
+    <div class="product-grid">
+
+        <div class="product">
+            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80" alt="T-shirt">
+            <div class="product-info">
+                <h3>T-shirt classique</h3>
+                <p>Un t-shirt simple et confortable.</p>
+                <div class="price">19,99 €</div>
+                <button onclick="addToCart('T-shirt classique', 19.99)">
+                    Ajouter au panier
+                </button>
+            </div>
+        </div>
+
+        <div class="product">
+            <img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=600&q=80" alt="Sweat">
+            <div class="product-info">
+                <h3>Sweat</h3>
+                <p>Un sweat confortable pour tous les jours.</p>
+                <div class="price">39,99 €</div>
+                <button onclick="addToCart('Sweat', 39.99)">
+                    Ajouter au panier
+                </button>
+            </div>
+        </div>
+
+        <div class="product">
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80" alt="Chaussures">
+            <div class="product-info">
+                <h3>Chaussures</h3>
+                <p>Chaussures modernes et confortables.</p>
+                <div class="price">59,99 €</div>
+                <button onclick="addToCart('Chaussures', 59.99)">
+                    Ajouter au panier
+                </button>
+            </div>
+        </div>
+
+        <div class="product">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80" alt="Montre">
+            <div class="product-info">
+                <h3>Montre</h3>
+                <p>Une montre élégante pour compléter votre style.</p>
+                <div class="price">49,99 €</div>
+                <button onclick="addToCart('Montre', 49.99)">
+                    Ajouter au panier
+                </button>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- PANIER -->
+
+<div id="cart">
+
+    <button id="close-cart">✕</button>
+
+    <h2>Votre panier</h2>
+
+    <div id="cart-items">
+        <p>Votre panier est vide.</p>
+    </div>
+
+    <div id="cart-total">
+        Total : 0,00 €
+    </div>
+
+    <button id="checkout" onclick="checkout()">
+        Commander
+    </button>
+
+</div>
+
+<footer>
+    <p>© 2026 Ma Boutique - Tous droits réservés</p>
+</footer>
+
+<script>
+
+    let cart = [];
+
+    const cartElement = document.getElementById("cart");
+    const cartItems = document.getElementById("cart-items");
+    const cartTotal = document.getElementById("cart-total");
+    const cartCount = document.getElementById("cart-count");
+
+    document.getElementById("cart-button").addEventListener("click", function() {
+        cartElement.classList.add("open");
+    });
+
+    document.getElementById("close-cart").addEventListener("click", function() {
+        cartElement.classList.remove("open");
+    });
+
+    function addToCart(name, price) {
+
+        const existing = cart.find(item => item.name === name);
+
+        if (existing) {
+            existing.quantity++;
+        } else {
+            cart.push({
+                name: name,
+                price: price,
+                quantity: 1
+            });
+        }
+
+        updateCart();
+
+        cartElement.classList.add("open");
+    }
+
+    function updateCart() {
+
+        cartItems.innerHTML = "";
+
+        let total = 0;
+        let count = 0;
+
+        if (cart.length === 0) {
+            cartItems.innerHTML = "<p>Votre panier est vide.</p>";
+        }
+
+        cart.forEach((item, index) => {
+
+            total += item.price * item.quantity;
+            count += item.quantity;
+
+            const div = document.createElement("div");
+
+            div.className = "cart-item";
+
+            div.innerHTML = `
+                <strong>${item.name}</strong>
+                <span>${item.price.toFixed(2).replace(".", ",")} €</span>
+
+                <div class="quantity">
+                    <button onclick="changeQuantity(${index}, -1)">−</button>
+                    <span>${item.quantity}</span>
+                    <button onclick="changeQuantity(${index}, 1)">+</button>
+                </div>
+
+                <button class="remove" onclick="removeItem(${index})">
+                    Supprimer
+                </button>
+            `;
+
+            cartItems.appendChild(div);
+        });
+
+        cartTotal.textContent =
+            "Total : " + total.toFixed(2).replace(".", ",") + " €";
+
+        cartCount.textContent = count;
+    }
+
+    function changeQuantity(index, amount) {
+
+        cart[index].quantity += amount;
+
+        if (cart[index].quantity <= 0) {
+            cart.splice(index, 1);
+        }
+
+        updateCart();
+    }
+
+    function removeItem(index) {
+
+        cart.splice(index, 1);
+
+        updateCart();
+    }
+
+    function checkout() {
+
+        if (cart.length === 0) {
+            alert("Votre panier est vide.");
+            return;
+        }
+
+        alert("Merci pour votre commande ! Le paiement sera ajouté prochainement.");
+    }
+
+</script>
+
+</body>
+</html>
+```
