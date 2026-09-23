@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Validation Google -->
+    <meta name="google-site-verification" content="joSG1ft9WNUVe3mMMtGBu74tjHg1xFOuvqDsKMC9i_U">
+
     <title>Ma Boutique</title>
 
     <style>
@@ -138,8 +141,6 @@
             background: #333;
         }
 
-        /* PANIER */
-
         #cart {
             position: fixed;
             top: 0;
@@ -230,7 +231,6 @@
         }
 
         @media (max-width: 500px) {
-
             .hero h2 {
                 font-size: 30px;
             }
@@ -245,22 +245,19 @@
 <body>
 
 <header>
-
     <h1>MA BOUTIQUE</h1>
 
     <button id="cart-button">
         🛒 Panier (<span id="cart-count">0</span>)
     </button>
-
 </header>
-
 
 <section class="hero">
 
     <h2>Bienvenue dans ma boutique</h2>
 
     <p>
-        Découvrez notre collection et commandez facilement.
+        Découvrez notre maillot de football et commandez facilement.
     </p>
 
     <button onclick="document.getElementById('products').scrollIntoView()">
@@ -268,7 +265,6 @@
     </button>
 
 </section>
-
 
 <section class="products" id="products">
 
@@ -296,7 +292,7 @@
                 </div>
 
                 <button onclick="acheterMaillot()">
-                    Acheter
+                    Acheter maintenant
                 </button>
 
                 <button
@@ -313,9 +309,6 @@
     </div>
 
 </section>
-
-
-<!-- PANIER -->
 
 <div id="cart">
 
@@ -339,7 +332,6 @@
 
 </div>
 
-
 <footer>
 
     <p>
@@ -348,10 +340,7 @@
 
 </footer>
 
-
 <script>
-
-    /* PANIER */
 
     let cart = [];
 
@@ -360,55 +349,31 @@
     const cartTotal = document.getElementById("cart-total");
     const cartCount = document.getElementById("cart-count");
 
-
-    /* OUVRIR LE PANIER */
-
     document.getElementById("cart-button").addEventListener("click", function() {
-
         cartElement.classList.add("open");
-
     });
-
-
-    /* FERMER LE PANIER */
 
     document.getElementById("close-cart").addEventListener("click", function() {
-
         cartElement.classList.remove("open");
-
     });
-
-
-    /* AJOUTER AU PANIER */
 
     function addToCart(name, price) {
 
         const existing = cart.find(item => item.name === name);
 
         if (existing) {
-
             existing.quantity++;
-
         } else {
-
             cart.push({
-
                 name: name,
                 price: price,
                 quantity: 1
-
             });
-
         }
 
         updateCart();
-
         cartElement.classList.add("open");
-
     }
-
-
-    /* AFFICHER LE PANIER */
 
     function updateCart() {
 
@@ -417,28 +382,20 @@
         let total = 0;
         let count = 0;
 
-
         if (cart.length === 0) {
-
             cartItems.innerHTML = "<p>Votre panier est vide.</p>";
-
         }
-
 
         cart.forEach((item, index) => {
 
             total += item.price * item.quantity;
-
             count += item.quantity;
-
 
             const div = document.createElement("div");
 
             div.className = "cart-item";
 
-
             div.innerHTML = `
-
                 <strong>${item.name}</strong>
 
                 <span>
@@ -451,9 +408,7 @@
                         −
                     </button>
 
-                    <span>
-                        ${item.quantity}
-                    </span>
+                    <span>${item.quantity}</span>
 
                     <button onclick="changeQuantity(${index}, 1)">
                         +
@@ -467,66 +422,42 @@
                 >
                     Supprimer
                 </button>
-
             `;
 
             cartItems.appendChild(div);
-
         });
-
 
         cartTotal.textContent =
             "Total : " +
             total.toFixed(2).replace(".", ",") +
             " €";
 
-
         cartCount.textContent = count;
-
     }
-
-
-    /* MODIFIER LA QUANTITÉ */
 
     function changeQuantity(index, amount) {
 
         cart[index].quantity += amount;
 
-
         if (cart[index].quantity <= 0) {
-
             cart.splice(index, 1);
-
         }
 
-
         updateCart();
-
     }
-
-
-    /* SUPPRIMER UN ARTICLE */
 
     function removeItem(index) {
 
         cart.splice(index, 1);
 
         updateCart();
-
     }
-
-
-    /* ACHETER DIRECTEMENT LE MAILLOT */
 
     function acheterMaillot() {
 
         window.location.href =
             "https://buy.stripe.com/fZuaEW8Yx4aQeppeyx4ko00";
-
     }
-
-
-    /* BOUTON COMMANDER DU PANIER */
 
     function checkout() {
 
@@ -535,18 +466,10 @@
             alert("Votre panier est vide.");
 
             return;
-
         }
-
-
-        /*
-        Pour le moment, le paiement Stripe
-        est configuré directement pour le maillot.
-        */
 
         window.location.href =
             "https://buy.stripe.com/fZuaEW8Yx4aQeppeyx4ko00";
-
     }
 
 </script>
