@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ma Boutique</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #111;
+}
+
+header {
+    background: #111;
+    color: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.cart-button {
+    background: white;
+    color: #111;
+    border: none;
+    padding: 11px 16px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.hero {
+    background: linear-gradient(135deg, #111, #444);
+    color: white;
+    padding: 80px 8%;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #ddd;
+    margin-bottom: 25px;
+}
+
+.hero a {
+    display: inline-block;
+    background: white;
+    color: black;
+    padding: 13px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.products {
+    max-width: 1200px;
+    margin: auto;
+    padding: 50px 6%;
+}
+
+.products h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.product-image {
+    height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.asics {
+    background: linear-gradient(135deg, #ddd, white);
+}
+
+.saucony {
+    background: linear-gradient(135deg, #ccc, white);
+}
+
+.parfum {
+    background: linear-gradient(135deg, #222, #777);
+    color: white;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.card h3 {
+    font-size: 21px;
+    margin-bottom: 8px;
+}
+
+.description {
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.price {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.add {
+    width: 100%;
+    border: none;
+    background: #111;
+    color: white;
+    padding: 13px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add:hover {
+    background: #333;
+}
+
+.features {
+    background: white;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
+
+/* PANIER */
+
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 20;
+}
+
+.overlay.active {
+    display: block;
+}
+
+.cart {
+    position: fixed;
+    right: -430px;
+    top: 0;
+    width: 420px;
+    max-width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 30;
+    padding: 25px;
+    transition: 0.3s;
+    overflow-y: auto;
+}
+
+.cart.active {
+    right: 0;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.close {
+    border: none;
+    background: none;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.cart-item {
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.quantity button {
+    padding: 4px 9px;
+    cursor: pointer;
+}
+
+.total {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 25px 0;
+}
+
+.checkout {
+    width: 100%;
+    background: #111;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.warning {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #777;
+}
+
+@media(max-width: 800px) {
+    .grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media(max-width: 550px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 38px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">MA BOUTIQUE</div>
+
+    <button class="cart-button" onclick="openCart()">
+        🛒 Panier (<span id="cartCount">0</span>)
+    </button>
+</header>
+
+<section class="hero">
+    <h1>Style & Parfums</h1>
+    <p>Découvre notre sélection à petits prix.</p>
+    <a href="#produits">Voir les produits</a>
+</section>
+
+<section class="products" id="produits">
+
+    <h2>Nos produits</h2>
+
+    <div class="grid">
+
+        <div class="card">
+
+            <div class="product-image asics">
+                ASICS<br>
+                KAYANO 14
+            </div>
+
+            <div class="card-content">
+
+                <h3>ASICS Kayano 14</h3>
+
+                <p class="description">
+                    Baskets sport et lifestyle.
+                </p>
+
+                <div class="price">70,00 €</div>
+
+                <button class="add"
+                onclick="addToCart('ASICS Kayano 14',70)">
+                    Ajouter au panier
+                </button>
+
+            </div>
+        </div>
+
+
+        <div class="card">
+
+            <div class="product-image saucony">
+                SAUCONY<br>
+                SPORT
+            </div>
+
+            <div class="card-content">
+
+                <h3>Saucony</h3>
+
+                <p class="description">
+                    Baskets confortables et tendance.
+                </p>
+
+                <div class="price">70,00 €</div>
+
+                <button class="add"
+                onclick="addToCart('Saucony',70)">
+                    Ajouter au panier
+                </button>
+
+            </div>
+        </div>
+
+
+        <div class="card">
+
+            <div class="product-image parfum">
+                PARFUM
+            </div>
+
+            <div class="card-content">
+
+                <h3>Parfum</h3>
+
+                <p class="description">
+                    Parfum sélectionné pour compléter ton style.
+                </p>
+
+                <div class="price">15,00 €</div>
+
+                <button class="add"
+                onclick="addToCart('Parfum',15)">
+                    Ajouter au panier
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="features">
+
+    <div>🔒 Paiement sécurisé</div>
+
+    <div>📦 Livraison</div>
+
+    <div>💬 Service client</div>
+
+</section>
+
+
+<footer>
+    © 2026 Ma Boutique — Tous droits réservés.
+</footer>
+
+
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+
+<div class="cart" id="cart">
+
+    <div class="cart-header">
+
+        <h2>Mon panier</h2>
+
+        <button class="close" onclick="closeCart()">
+            ✕
+        </button>
+
+    </div>
+
+    <div id="cartItems"></div>
+
+    <div class="total">
+        Total : <span id="total">0,00 €</span>
+    </div>
+
+    <button class="checkout" onclick="checkout()">
+        Commander
+    </button>
+
+    <p class="warning">
+        Le bouton doit être relié à ton système de paiement
+        avant de pouvoir encaisser réellement.
+    </p>
+
+</div>
+
+
+<script>
+
+let cart = JSON.parse(
+    localStorage.getItem("cart") || "[]"
+);
+
+
+function saveCart() {
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    displayCart();
+}
+
+
+function addToCart(name, price) {
+
+    let product = cart.find(
+        item => item.name === name
+    );
+
+    if(product) {
+
+        product.quantity++;
+
+    } else {
+
+        cart.push({
+            name: name,
+            price: price,
+            quantity: 1
+        });
+
+    }
+
+    saveCart();
+
+    openCart();
+}
+
+
+function changeQuantity(name, amount) {
+
+    let product = cart.find(
+        item => item.name === name
+    );
+
+    if(!product) return;
+
+    product.quantity += amount;
+
+    if(product.quantity <= 0) {
+
+        cart = cart.filter(
+            item => item.name !== name
+        );
+
+    }
+
+    saveCart();
+}
+
+
+function displayCart() {
+
+    const container =
+        document.getElementById("cartItems");
+
+    const count =
+        cart.reduce(
+            (total,item) =>
+            total + item.quantity,
+            0
+        );
+
+    document.getElementById(
+        "cartCount"
+    ).textContent = count;
+
+
+    if(cart.length === 0) {
+
+        container.innerHTML =
+            "<p>Ton panier est vide.</p>";
+
+    } else {
+
+        container.innerHTML =
+            cart.map(item => `
+
+                <div class="cart-item">
+
+                    <div>
+                        <strong>
+                            ${item.name}
+                        </strong>
+
+                        <br>
+
+                        ${item.price
+                          .toFixed(2)
+                          .replace(".",",")} €
+                    </div>
+
+                    <div class="quantity">
+
+                        <button
+                        onclick="changeQuantity('${item.name}',-1)">
+                            −
+                        </button>
+
+                        ${item.quantity}
+
+                        <button
+                        onclick="changeQuantity('${item.name}',1)">
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `).join("");
+
+    }
+
+
+    const total =
+        cart.reduce(
+            (sum,item) =>
+            sum + item.price * item.quantity,
+            0
+        );
+
+    document.getElementById(
+        "total"
+    ).textContent =
+        total.toFixed(2).replace(".",",")
+        + " €";
+}
+
+
+function openCart() {
+
+    document.getElementById(
+        "cart"
+    ).classList.add("active");
+
+    document.getElementById(
+        "overlay"
+    ).classList.add("active");
+
+}
+
+
+function closeCart() {
+
+    document.getElementById(
+        "cart"
+    ).classList.remove("active");
+
+    document.getElementById(
+        "overlay"
+    ).classList.remove("active");
+
+}
+
+
+function checkout() {
+
+    if(cart.length === 0) {
+
+        alert("Ton panier est vide.");
+
+        return;
+    }
+
+    alert(
+        "Le panier fonctionne. Pour encaisser réellement, il faut maintenant connecter ton paiement Stripe."
+    );
+
+}
+
+
+displayCart();
+
+</script>
+
+</body>
+</html>
